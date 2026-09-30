@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 
-char *get_file_extension(char *filename){ // gets the extention including the .
+char *get_file_extension(char *filename){ // gets the extention
     char *dot = strrchr(filename, '.');
 
     if (dot == NULL || dot == filename)
         return NULL;
 
-    return dot;
+    return dot +1;
 }
 
 char *get_file_type(unsigned char *magic_bytes){
@@ -21,6 +22,13 @@ char *get_file_type(unsigned char *magic_bytes){
         return "EXE";
     else
         return "UNKNOWN";
+}
+
+int does_extension_match_type(char *extension, char *type){
+    if (strcasecmp(extension, type) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 int main(int argc, char *argv[]){
@@ -48,7 +56,7 @@ int main(int argc, char *argv[]){
     fclose(file);
 
     printf("Extension: %s\n", get_file_extension(filename));
-    
+
     printf("Magic bytes: ");
 
     
@@ -59,6 +67,8 @@ int main(int argc, char *argv[]){
     printf("\n");
 
     printf("Detected: %s\n", get_file_type(magic_bytes));
+
+    printf("does extention match type? : %s\n", does_extension_match_type(get_file_extension(filename),get_file_type(magic_bytes))? "YES":"NO");
 
     return 0;
 }
