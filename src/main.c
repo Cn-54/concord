@@ -72,8 +72,14 @@ int main(int argc, char *argv[]){
     fclose(file);
 
     printf("\n== File Identification ====================\n");
+    char *extension = get_file_extension(filename);
+    char *type = get_file_type(magic_bytes);
 
-    printf("Extension: %s\n", get_file_extension(filename));
+    if (extension != NULL)
+        printf("Extension: %s\n", extension);
+    else
+        printf("Extension: NONE\n");
+
 
     printf("Magic bytes: ");
 
@@ -84,10 +90,10 @@ int main(int argc, char *argv[]){
 
     printf("\n");
 
-    printf("Detected: %s\n", get_file_type(magic_bytes));
+    printf("Detected: %s\n", type);
 
-    printf("does extention match type? : %s\n", does_extension_match_type(get_file_extension(filename),get_file_type(magic_bytes))? "YES":"NO");
-
+    printf("Extension match: %s\n",extension != NULL && does_extension_match_type(extension, type) ? "YES" : "NO");
+            
     if (stat(filename, &fileStat) < 0) {
         return 1;
     }
